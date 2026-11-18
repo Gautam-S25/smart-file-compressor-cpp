@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Compressor Pro</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand-wrap">
+        <div class="brand-icon">🗜</div>
+        <h1>Nexus Compressor Pro</h1>
+    </div>
+
+    <div class="top-badge">
+        Lossless File Compression Suite
+    </div>
+</header>
+
+<main class="dashboard">
+
+    <section class="tabs-bar">
+        <button class="tab-btn active" data-tab="console">Compression Console</button>
+        <button class="tab-btn" data-tab="preview">Preview</button>
+        <button class="tab-btn" data-tab="reports">Reports</button>
+        <button class="tab-btn" data-tab="insights">Insights</button>
+    </section>
+
+    <section id="console" class="tab-content active">
+
+        <section class="panel">
+            <h2>File Compression & Extraction</h2>
+
+            <div id="dropZone" class="drop-zone">
+                <input type="file" id="fileInput" hidden>
+
+                <div class="drop-icon">⬆</div>
+                <div class="drop-title">Drop a file here</div>
+                <div class="drop-sub">or click to browse</div>
+                <div id="fileName" class="file-name">No file selected</div>
+            </div>
+
+            <div class="button-group main-actions">
+                <button id="compressBtn" class="primary-btn">
+                    ⚡ Compress
+                </button>
+
+                <button id="decompressBtn" class="success-btn">
+                    🔓 Extract
+                </button>
+            </div>
+
+            <div id="loader" class="loader-wrap hidden">
+                <div class="spinner"></div>
+                <span id="loaderText">Processing...</span>
+            </div>
+        </section>
+
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-title">Original Size</div>
+                <div id="originalSize" class="stat-value">0 B</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Output Size</div>
+                <div id="outputSize" class="stat-value">0 B</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Status</div>
+                <div id="statusText" class="stat-value highlight">Ready</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-title">Execution Time</div>
+                <div id="executionTime" class="stat-value">0 ms</div>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Operation Audit Log</h2>
+            <div id="logBox" class="log-box">
+> Nexus Web Server initialized.
+            </div>
+        </section>
+
+    </section>
+
+    <section id="preview" class="tab-content">
+        <section class="panel">
+            <h2>Selected File Preview</h2>
+
+            <div class="preview-grid">
+                <div class="preview-card">
+                    <span>File Name</span>
+                    <strong id="previewName">No file selected</strong>
+                </div>
+
+                <div class="preview-card">
+                    <span>File Type</span>
+                    <strong id="previewType">-</strong>
+                </div>
+
+                <div class="preview-card">
+                    <span>File Size</span>
+                    <strong id="previewSize">0 B</strong>
+                </div>
+
+                <div class="preview-card">
+                    <span>Last Modified</span>
+                    <strong id="previewModified">-</strong>
+                </div>
+            </div>
+
+            <div class="preview-box">
+                <h3>Content Preview</h3>
+                <pre id="previewContent">Select a file to preview its information.</pre>
+            </div>
+        </section>
+    </section>
+
+    <section id="reports" class="tab-content">
+        <section class="panel">
+            <h2>Latest Operation Report</h2>
+
+            <div class="report-grid">
+                <div class="report-card">
+                    <span>Operation</span>
+                    <strong id="reportOperation">None</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Input File</span>
+                    <strong id="reportFile">-</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Input Size</span>
+                    <strong id="reportInputSize">0 B</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Output Size</span>
+                    <strong id="reportOutputSize">0 B</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Space Saved</span>
+                    <strong id="reportSaved">0%</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Execution Time</span>
+                    <strong id="reportTime">0 ms</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Status</span>
+                    <strong id="reportStatus">Ready</strong>
+                </div>
+
+                <div class="report-card">
+                    <span>Integrity</span>
+                    <strong id="integrityStatus">Not checked</strong>
+                </div>
+            </div>
+
+            <h2 class="history-title">Operation History</h2>
+
+            <div class="history-wrap">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Operation</th>
+                            <th>File</th>
+                            <th>Input</th>
+                            <th>Output</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </section>
+
+    <section id="insights" class="tab-content">
+        <section class="panel">
+            <h2>Compression Insights</h2>
+
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <span>Unique Bytes</span>
+                    <strong id="uniqueBytes">0</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Average Huffman Code</span>
+                    <strong id="avgCodeLength">0 bits</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Encoded Data</span>
+                    <strong id="encodedBits">0 bits</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Estimated Saving</span>
+                    <strong id="spaceEfficiency">0%</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Compression Ratio</span>
+                    <strong id="compressionRatio">0 : 1</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>File Category</span>
+                    <strong id="fileCategory">-</strong>
+                </div>
+
+                <div class="insight-card wide-card">
+                    <span>Analysis</span>
+                    <strong id="recommendation">Select a file to begin analysis</strong>
+                </div>
+            </div>
+
+            <div class="frequency-panel">
+                <h3>Top Byte Frequencies</h3>
+                <div id="frequencyChart" class="frequency-chart">
+                    <div class="empty-chart">
+                        Select a file to generate frequency analysis.
+                    </div>
+                </div>
+            </div>
+
+            <div class="frequency-panel">
+                <h3>Huffman Tree Visualization</h3>
+                <p class="tree-note">
+                    Left branch = 0 &nbsp;&nbsp; Right branch = 1
+                </p>
+
+                <div id="huffmanTree" class="huffman-tree">
+                    <div class="empty-chart">
+                        Select a file to generate the Huffman tree.
+                    </div>
+                </div>
+
+            <div class="frequency-panel codebook-panel">
+                <div class="codebook-heading">
+                    <div>
+                        <h3>Huffman Codebook</h3>
+                        <p class="tree-note">
+                            Binary codes generated from the Huffman Tree
+                        </p>
+                    </div>
+
+                    <input
+                        id="codebookSearch"
+                        class="codebook-search"
+                        type="text"
+                        placeholder="Search character or byte..."
+                    >
+                </div>
+
+                <div class="codebook-table-wrap">
+                    <table class="codebook-table">
+                        <thead>
+                            <tr>
+                                <th>Character</th>
+                                <th>Byte</th>
+                                <th>Frequency</th>
+                                <th>Huffman Code</th>
+                                <th>Length</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="huffmanCodebook">
+                            <tr>
+                                <td colspan="5" class="codebook-empty">
+                                    Select a file to generate the codebook.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            </div>
+
+        </section>
+    </section>
+
+</main>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="/static/app.js"></script>
+
+</body>
+</html>

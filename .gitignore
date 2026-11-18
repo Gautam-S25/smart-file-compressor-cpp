@@ -1,0 +1,9 @@
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+nexus_engine
+/uploads/*
+!/uploads/.gitkeep
+*.huff
+/restored.txt
